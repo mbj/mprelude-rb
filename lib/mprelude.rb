@@ -80,7 +80,7 @@ module MPrelude
 
     # Execute block and wrap error in left
     #
-    # @param [Class:Exception] error
+    # @param [Class<Exception>] error
     #
     # @return [Either<Exception, Object>]
     def self.wrap_error(error)
