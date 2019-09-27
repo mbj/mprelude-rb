@@ -3,10 +3,10 @@
 RSpec.describe MPrelude::Either do
   describe '.wrap_error' do
     def apply
-      described_class.wrap_error(error, &block)
+      described_class.wrap_error(exception, &block)
     end
 
-    let(:error) { TestError }
+    let(:exception) { TestError }
 
     class TestError < RuntimeError; end
 
@@ -20,12 +20,12 @@ RSpec.describe MPrelude::Either do
     end
 
     context 'when block raises' do
-      let(:exception) { error.new             }
-      let(:block)     { -> { fail exception } }
+      let(:error) { exception.new     }
+      let(:block) { -> { fail error } }
 
       context 'with covered exception' do
         it 'returns left wrapping exception' do
-          expect(apply).to eql(described_class::Left.new(exception))
+          expect(apply).to eql(described_class::Left.new(error))
         end
       end
 
