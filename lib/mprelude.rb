@@ -80,13 +80,13 @@ module MPrelude
 
     # Execute block and wrap error in left
     #
-    # @param [Class:Exception] error
+    # @param [Class<Exception>] exception
     #
     # @return [Either<Exception, Object>]
-    def self.wrap_error(error)
+    def self.wrap_error(*exceptions)
       Right.new(yield)
-    rescue error => exception
-      Left.new(exception)
+    rescue *exceptions => error
+      Left.new(error)
     end
 
     class Left < self

@@ -2,15 +2,16 @@
 
 RSpec.describe MPrelude::Either do
   describe '.wrap_error' do
-    def apply
-      described_class.wrap_error(error, &block)
-    end
-
-    let(:error) { TestError }
+    let(:block)           { -> { fail error } }
+    let(:error)           { exception.new     }
+    let(:exception)       { TestError         }
+    let(:other_exception) { OtherTestError    }
 
     class TestError < RuntimeError; end
 
-    context 'when block returns' do
+    class OtherTestError < RuntimeError; end
+
+    shared_examples 'block returns' do
       let(:value) { instance_double(Object, 'value') }
       let(:block) { -> { value }                     }
 
@@ -19,21 +20,67 @@ RSpec.describe MPrelude::Either do
       end
     end
 
-    context 'when block raises' do
-      let(:exception) { error.new             }
-      let(:block)     { -> { fail exception } }
+    shared_examples 'covered exception' do
+      it 'returns left wrapping exception' do
+        expect(apply).to eql(described_class::Left.new(error))
+      end
+    end
 
-      context 'with covered exception' do
-        it 'returns left wrapping exception' do
-          expect(apply).to eql(described_class::Left.new(exception))
-        end
+    shared_examples 'uncovered exception' do
+      let(:unexpected_exception) { StandardError }
+
+      let(:block) { -> { fail unexpected_exception } }
+
+      it 'returns raises error' do
+        expect { apply }.to raise_error(unexpected_exception)
+      end
+    end
+
+    context 'on single exception argument' do
+      def apply
+        described_class.wrap_error(exception, &block)
       end
 
-      context 'with uncovered exception' do
-        let(:exception) { StandardError.new }
+      context 'when block returns' do
+        include_examples 'block returns'
+      end
 
-        it 'returns raises error' do
-          expect { apply }.to raise_error(StandardError)
+      context 'when block raises' do
+        context 'with covered exception' do
+          include_examples 'covered exception'
+        end
+
+        context 'with uncovered exception' do
+          include_examples 'uncovered exception'
+        end
+      end
+    end
+
+    context 'on multiple exception arguments' do
+      def apply
+        described_class.wrap_error(exception, other_exception, &block)
+      end
+
+      context 'when block returns' do
+        include_examples 'block returns'
+      end
+
+      context 'when block raises' do
+        context 'with covered exception' do
+          include_examples 'covered exception'
+        end
+
+        context 'with uncovered exception' do
+          include_examples 'uncovered exception'
+        end
+
+        context 'with other covered exception' do
+          let(:block)       { -> { fail other_error } }
+          let(:other_error) { other_exception.new     }
+
+          it 'returns left wrapping exception' do
+            expect(apply).to eql(described_class::Left.new(other_error))
+          end
         end
       end
     end
