@@ -83,9 +83,9 @@ module MPrelude
     # @param [Class<Exception>] exception
     #
     # @return [Either<Exception, Object>]
-    def self.wrap_error(exception)
+    def self.wrap_error(*exceptions)
       Right.new(yield)
-    rescue exception => error
+    rescue *exceptions => error
       Left.new(error)
     end
 
