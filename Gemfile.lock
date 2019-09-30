@@ -24,7 +24,7 @@ GIT
 PATH
   remote: .
   specs:
-    mprelude (0.0.2)
+    mprelude (0.0.3)
       abstract_type (~> 0.0.7)
       adamantium (~> 0.2.0)
       concord (~> 0.1.5)
