@@ -89,6 +89,20 @@ module MPrelude
       Left.new(error)
     end
 
+    # Test for left constructor
+    #
+    # @return [Boolean]
+    def left?
+      instance_of?(Left)
+    end
+
+    # Test for right constructor
+    #
+    # @return [Boolean]
+    def right?
+      instance_of?(Right)
+    end
+
     class Left < self
       # Evaluate functor block
       #

@@ -188,6 +188,26 @@ RSpec.describe MPrelude::Either::Left do
 
     include_examples '#apply block evaluation'
   end
+
+  describe '#left?' do
+    def apply
+      subject.left?
+    end
+
+    it 'returns true' do
+      expect(apply).to be(true)
+    end
+  end
+
+  describe '#right?' do
+    def apply
+      subject.right?
+    end
+
+    it 'returns false' do
+      expect(apply).to be(false)
+    end
+  end
 end
 
 RSpec.describe MPrelude::Either::Right do
@@ -290,5 +310,25 @@ RSpec.describe MPrelude::Either::Right do
     end
 
     include_examples '#apply block evaluation'
+  end
+
+  describe '#left?' do
+    def apply
+      subject.left?
+    end
+
+    it 'returns false' do
+      expect(apply).to be(false)
+    end
+  end
+
+  describe '#right?' do
+    def apply
+      subject.right?
+    end
+
+    it 'returns true' do
+      expect(apply).to be(true)
+    end
   end
 end
