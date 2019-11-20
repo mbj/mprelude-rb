@@ -8,8 +8,6 @@ module MPrelude
   module Functor
     include AbstractType
 
-    abstract_method :fmap
-
   private
 
     # Raise error unless block is provided
