@@ -5,10 +5,8 @@ require 'adamantium'
 require 'concord'
 
 module MPrelude
-  module Functor
+  module RequireBlock
     include AbstractType
-
-    abstract_method :fmap
 
   private
 
@@ -22,13 +20,13 @@ module MPrelude
       fail LocalJumpError unless block_given?
       self
     end
-  end # Functor
+  end # RequireBLock
 
   class Maybe
     include(
       AbstractType,
       Adamantium::Flat,
-      Functor
+      RequireBlock
     )
 
     class Nothing < self
@@ -75,7 +73,7 @@ module MPrelude
       AbstractType,
       Adamantium::Flat,
       Concord.new(:value),
-      Functor
+      RequireBlock
     )
 
     # Execute block and wrap error in left
