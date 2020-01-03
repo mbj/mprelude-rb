@@ -113,9 +113,9 @@ RSpec.describe MPrelude::Either::Left do
     include_examples 'returns self'
   end
 
-  describe '#apply' do
+  describe '#bind' do
     def apply
-      subject.apply(&block)
+      subject.bind(&block)
     end
 
     include_examples 'no block evaluation'
@@ -186,7 +186,7 @@ RSpec.describe MPrelude::Either::Left do
       subject.either(block, -> { fail })
     end
 
-    include_examples '#apply block evaluation'
+    include_examples '#bind block evaluation'
   end
 
   describe '#left?' do
@@ -233,13 +233,13 @@ RSpec.describe MPrelude::Either::Right do
     include_examples 'Functor#fmap block evaluation'
   end
 
-  describe '#apply' do
+  describe '#bind' do
     def apply
-      subject.apply(&block)
+      subject.bind(&block)
     end
 
     include_examples 'requires block'
-    include_examples '#apply block evaluation'
+    include_examples '#bind block evaluation'
   end
 
   describe '#from_left' do
@@ -309,7 +309,7 @@ RSpec.describe MPrelude::Either::Right do
       subject.either(-> { fail }, block)
     end
 
-    include_examples '#apply block evaluation'
+    include_examples '#bind block evaluation'
   end
 
   describe '#left?' do

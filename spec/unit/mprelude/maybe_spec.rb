@@ -15,9 +15,9 @@ RSpec.describe MPrelude::Maybe::Nothing do
     include_examples 'returns self'
   end
 
-  describe '#apply' do
+  describe '#bind' do
     def apply
-      subject.apply(&block)
+      subject.bind(&block)
     end
 
     include_examples 'no block evaluation'
@@ -49,12 +49,12 @@ RSpec.describe MPrelude::Maybe::Just do
     include_examples 'Functor#fmap block evaluation'
   end
 
-  describe '#apply' do
+  describe '#bind' do
     def apply
-      subject.apply(&block)
+      subject.bind(&block)
     end
 
     include_examples 'requires block'
-    include_examples '#apply block evaluation'
+    include_examples '#bind block evaluation'
   end
 end

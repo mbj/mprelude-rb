@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name        = 'mprelude'
-  gem.version     = '0.0.3'
+  gem.version     = '0.1.0'
   gem.authors     = ['Markus Schirp']
   gem.email       = ['mbj@schirp-dso.com']
   gem.description = 'Minimal prelude alike classes'
