@@ -44,7 +44,7 @@ module MPrelude
       # Evaluate applicative block
       #
       # @return [Maybe::Nothing]
-      def apply(&block)
+      def bind(&block)
         require_block(&block)
       end
     end # Nothing
@@ -62,7 +62,7 @@ module MPrelude
       # Evalute applicative block
       #
       # @return [Maybe]
-      def apply
+      def bind
         yield(value)
       end
     end # Just
@@ -112,7 +112,7 @@ module MPrelude
       # Evaluate applicative block
       #
       # @return [Either::Left<Object>]
-      def apply(&block)
+      def bind(&block)
         require_block(&block)
       end
 
@@ -164,7 +164,7 @@ module MPrelude
       # Evaluate applicative block
       #
       # @return [Either<Object>]
-      def apply
+      def bind
         yield(value)
       end
 

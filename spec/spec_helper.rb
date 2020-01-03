@@ -28,7 +28,7 @@ RSpec.shared_examples 'returns self' do
   end
 end
 
-RSpec.shared_examples '#apply block evaluation' do
+RSpec.shared_examples '#bind block evaluation' do
   it 'evaluates block and returns its wrapped result' do
     expect { expect(apply).to eql(block_result) }
       .to change(yields, :to_a)
