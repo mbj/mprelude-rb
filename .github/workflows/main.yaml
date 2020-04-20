@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  BUNDLE_PATH: vendor/bundle
+
+jobs:
+  build:
+    name: setup
+    strategy:
+      matrix:
+        ruby: [2.5, 2.6, 2.7, jruby]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ matrix.ruby }}-${{ hashFiles('Gemfile.lock') }}-3
+    - name: bundle
+      run: bundle --jobs 4 --retry 3
+  spec:
+    needs: build
+    strategy:
+      matrix:
+        ruby: [2.5, 2.6, 2.7, jruby]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ matrix.ruby }}-${{ hashFiles('Gemfile.lock') }}-3
+    - run: bundle exec rspec spec
+  mutant:
+    needs: build
+    strategy:
+      matrix:
+        ruby: [2.5, 2.6, 2.7]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ matrix.ruby }}-${{ hashFiles('Gemfile.lock') }}-3
+    - run: |
+        bundle exec mutant \
+        --include lib      \
+        --require mprelude \
+        --use rspec        \
+        --zombie           \
+        --                 \
+        'MPrelude*'
