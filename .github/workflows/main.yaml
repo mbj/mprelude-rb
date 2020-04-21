@@ -24,7 +24,7 @@ jobs:
     - uses: actions/cache@v1
       with:
         path: vendor/bundle
-        key: ${{ matrix.ruby }}-${{ hashFiles('Gemfile.lock') }}-3
+        key: ${{ matrix.ruby }}-${{ hashFiles('Gemfile.lock') }}
     - name: bundle
       run: bundle --jobs 4 --retry 3
   spec:
@@ -41,7 +41,7 @@ jobs:
     - uses: actions/cache@v1
       with:
         path: vendor/bundle
-        key: ${{ matrix.ruby }}-${{ hashFiles('Gemfile.lock') }}-3
+        key: ${{ matrix.ruby }}-${{ hashFiles('Gemfile.lock') }}
     - run: bundle exec rspec spec
   mutant:
     needs: build
@@ -57,7 +57,7 @@ jobs:
     - uses: actions/cache@v1
       with:
         path: vendor/bundle
-        key: ${{ matrix.ruby }}-${{ hashFiles('Gemfile.lock') }}-3
+        key: ${{ matrix.ruby }}-${{ hashFiles('Gemfile.lock') }}
     - run: |
         bundle exec mutant \
         --include lib      \
