@@ -1,0 +1,3 @@
+includes: [lib]
+integration: rspec
+requires: [mprelude]
